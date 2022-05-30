@@ -1,6 +1,6 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true"  CodeFile="Default.aspx.cs" Inherits="_Default" %>
 
-<%@ Register assembly="DevExpress.Web.ASPxPivotGrid.v13.1, Version=13.1.14.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" namespace="DevExpress.Web.ASPxPivotGrid" tagprefix="dxwpg" %>
+<%@ Register assembly="DevExpress.Web.ASPxPivotGrid.v21.2, Version=21.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" namespace="DevExpress.Web.ASPxPivotGrid" tagprefix="dxwpg" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -14,37 +14,50 @@
     
     </div>
     <dxwpg:ASPxPivotGrid ID="ASPxPivotGrid1" runat="server" 
-        DataSourceID="AccessDataSource1" 
-        oncustomfieldvaluecells="ASPxPivotGrid1_CustomFieldValueCells">
+        DataSourceID="SqlDataSource1" 
+        oncustomfieldvaluecells="ASPxPivotGrid1_CustomFieldValueCells" ClientIDMode="AutoID" IsMaterialDesign="False">
         <Fields>
 
             <dxwpg:PivotGridField ID="fieldProductName" AreaIndex="0" 
                 FieldName="ProductName">
+                <DataBindingSerializable>
+                    <dxwpg:DataSourceColumnBinding ColumnName="ProductName" />
+                </DataBindingSerializable>
             </dxwpg:PivotGridField>
-            <dxwpg:PivotGridField ID="fieldCompanyName" Area="RowArea" AreaIndex="0" 
-                FieldName="CompanyName">
+            <dxwpg:PivotGridField ID="fieldCompanyName" Area="RowArea" AreaIndex="0">
+                <DataBindingSerializable>
+                    <dxwpg:DataSourceColumnBinding ColumnName="CompanyName" />
+                </DataBindingSerializable>
             </dxwpg:PivotGridField>
-            <dxwpg:PivotGridField ID="fieldOrderYear" Area="ColumnArea" AreaIndex="0" 
-                FieldName="OrderDate" GroupInterval="DateYear" GroupIndex="0" 
+            <dxwpg:PivotGridField ID="fieldOrderYear" Area="ColumnArea" AreaIndex="0" GroupIndex="0" 
                 InnerGroupIndex="0" UnboundFieldName="fieldOrderYear" Caption="Year">
+                <DataBindingSerializable>
+                    <dxwpg:DataSourceColumnBinding ColumnName="OrderDate" GroupInterval="DateYear" />
+                </DataBindingSerializable>
             </dxwpg:PivotGridField>
-            <dxwpg:PivotGridField ID="fieldOrderMonth" Area="ColumnArea" AreaIndex="1" 
-                FieldName="OrderDate" GroupInterval="DateQuarter" GroupIndex="0" 
-                InnerGroupIndex="1" UnboundFieldName="fieldOrderMonth" Caption="Quarter">
+            <dxwpg:PivotGridField ID="fieldOrderQuarter" Area="ColumnArea" AreaIndex="1" 
+                FieldName="OrderDate" GroupIndex="0" 
+                InnerGroupIndex="1" UnboundFieldName="fieldOrderMonth" Caption="Quarter" Name="fieldOrderQuarter">
+                <DataBindingSerializable>
+                    <dxwpg:DataSourceColumnBinding ColumnName="OrderDate" GroupInterval="DateQuarter" />
+                </DataBindingSerializable>
             </dxwpg:PivotGridField>
-            <dxwpg:PivotGridField ID="fieldProductAmount" Area="DataArea" AreaIndex="0" 
-                FieldName="ProductAmount">
+            <dxwpg:PivotGridField ID="fieldProductAmount" Area="DataArea" AreaIndex="0">
+                <DataBindingSerializable>
+                    <dxwpg:DataSourceColumnBinding ColumnName="ProductAmount" />
+                </DataBindingSerializable>
             </dxwpg:PivotGridField>
 
         </Fields>
+        <OptionsData DataProcessingEngine="Optimized" />
         <Groups>
             <dxwpg:PivotGridWebGroup Caption="Date" />
         </Groups>
     </dxwpg:ASPxPivotGrid>
-    <asp:AccessDataSource ID="AccessDataSource1" runat="server" 
-        DataFile="~/App_Data/nwind.mdb" 
-        SelectCommand="SELECT * FROM [CustomerReports]">
-    </asp:AccessDataSource>
+        <asp:SqlDataSource ID="SqlDataSource1" runat="server" 
+            ConnectionString="<%$ ConnectionStrings:ConnectionString %>" 
+            ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" 
+            SelectCommand="SELECT * FROM [CustomerReports]"></asp:SqlDataSource>
     </form>
 </body>
 </html>
